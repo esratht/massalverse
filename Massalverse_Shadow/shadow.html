@@ -18,6 +18,10 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: background-color 0.3s;
+            text-decoration: none; /* Linkler için */
+            display: inline-block;
+            text-align: center;
+            width: 100%;
         }
         .btn-back-to-main:hover {
             background-color: rgba(0, 255, 106, 0.1);
@@ -48,7 +52,7 @@
             <h2 id="question-text" class="question-text">...</h2>
             <input type="text" id="user-input" class="terminal-input" placeholder="Cevabını yaz..." autocomplete="off">
             <button class="btn btn-next" onclick="nextQuestion()">DEVAM ET ></button>
-            </div>
+        </div>
 
         <div id="loading-screen" class="screen">
             <div class="loader">
@@ -90,11 +94,27 @@
                 <button class="btn btn-outline" onclick="location.reload()">TEKRAR DENE</button>
                 <button class="btn btn-share" onclick="shareOnTwitter()">X / TWITTER'DA İFŞA ET</button>
                 
-                <a href="../index.html" class="btn-back-to-main" style="width: 100%; text-decoration: none; text-align: center;">ANA MENÜYE DÖN</a>
+                <a href="../index.html" class="btn-back-to-main" style="margin-top: 15px;">ANA MENÜYE DÖN</a>
             </div>
         </div>
     </div>
 
     <script src="shadow.js"></script>
+    <script>
+        // Sayfa yüklendiğinde başlangıç ekranını göster
+        document.addEventListener('DOMContentLoaded', () => {
+             switchScreen('start-screen');
+        });
+        
+        // Bu iki fonksiyon, shadow.js'den gelen switchScreen'i geçersiz kılmaması için burada bırakılmıştır.
+        function switchScreen(id) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.display = 'none';
+                screen.classList.remove('active');
+            });
+            document.getElementById(id).style.display = 'flex';
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
 </body>
 </html>
