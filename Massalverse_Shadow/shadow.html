@@ -55,7 +55,7 @@
             text-align: center;
             display: flex; 
             flex-direction: column;
-            /* Ekranları gizlemek için varsayılan stil */
+            /* Ekranları gizlemek için varsayılan stil JS ile kontrol edilecek */
             display: none; 
         }
         /* JS ile aktif edilen ekran */
@@ -277,8 +277,7 @@
                 return { archetype: "SİNYAL YOK", report: "Bilinmeyen Burç Kodu.", metrics: [] };
             }
 
-            // KRİTİK DEĞİŞİKLİK: 3 Gölgeden Rastgele Birini Seçme
-            // data.shadows bir dizidir (array). Math.random ile 0, 1 veya 2. indexi seçiyoruz.
+            // Rastgele bir gölge seçimi (0, 1 veya 2)
             const randomIndex = Math.floor(Math.random() * data.shadows.length);
             const selectedShadow = data.shadows[randomIndex];
 
@@ -290,13 +289,12 @@
             const reportMetrics = selectedMetrics.map(metric => ({
                 code: metric.code,
                 title: metric.title,
-                // Analiz kısmına seçilen gölgenin açıklamasını gönderiyoruz
                 analysis: metric.action({ focus: selectedShadow.desc }) 
             }));
 
             return {
-                archetype: selectedShadow.title, // Başlık (Örn: ACEMİ SAVAŞÇI)
-                report: `Yolcu, ${sign} frekansında derin tarama tamamlandı. Şu anki titreşimin **${selectedShadow.title}** hata kodunda takılı kalmış.\n\nKRİTİK HATA: ${selectedShadow.desc}`,
+                archetype: selectedShadow.title, 
+                report: `Yolcu, ${sign} frekansında derin tarama tamamlandı. Şu anki titreşimin **${selectedShadow.title}** hata kodunda takılı kalmış.`,
                 metrics: reportMetrics
             };
         }
@@ -319,17 +317,14 @@
         }
 
         function startAnalysis(sign) {
-            // Analizi Çalıştır
             const reportData = generateShadowReport(sign); 
             
-            // Sonuçları Ekrana Bas
-            document.getElementById('archetype-description-top').innerText = reportData.report; // Ana metin buraya
-            document.getElementById('archetype-result').innerText = reportData.archetype; // Başlık buraya
+            document.getElementById('archetype-description-top').innerText = reportData.report;
+            document.getElementById('archetype-result').innerText = reportData.archetype;
             
             const metricsOutput = document.getElementById('metrics-output');
             metricsOutput.innerHTML = '';
 
-            // Metrikleri Ekle
             reportData.metrics.forEach(metric => {
                 const item = document.createElement('div');
                 item.classList.add('metric-item');
